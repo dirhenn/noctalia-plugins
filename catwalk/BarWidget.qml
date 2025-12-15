@@ -62,24 +62,20 @@ Rectangle {
     property int frameIndex: 0
     property bool isRunning: true
     
-    // Detect Light Mode (Dark Text = Light Mode)
-    readonly property bool isLightMode: (Color.mOnSurface.r * 0.299 + Color.mOnSurface.g * 0.587 + Color.mOnSurface.b * 0.114) < 0.5
-    readonly property string iconPrefix: isLightMode ? "icons/black/" : "icons/"
-
     readonly property var icons: [
-        root.iconPrefix + "my-active-0-symbolic.svg",
-        root.iconPrefix + "my-active-1-symbolic.svg",
-        root.iconPrefix + "my-active-2-symbolic.svg",
-        root.iconPrefix + "my-active-3-symbolic.svg",
-        root.iconPrefix + "my-active-4-symbolic.svg"
+        "icons/my-active-0-symbolic.svg",
+        "icons/my-active-1-symbolic.svg",
+        "icons/my-active-2-symbolic.svg",
+        "icons/my-active-3-symbolic.svg",
+        "icons/my-active-4-symbolic.svg"
     ]
     
     property int idleFrameIndex: 0
     readonly property var idleIcons: [
-        root.iconPrefix + "my-idle-0-symbolic.svg",
-        root.iconPrefix + "my-idle-1-symbolic.svg",
-        root.iconPrefix + "my-idle-2-symbolic.svg",
-        root.iconPrefix + "my-idle-3-symbolic.svg"
+        "icons/my-idle-0-symbolic.svg",
+        "icons/my-idle-1-symbolic.svg",
+        "icons/my-idle-2-symbolic.svg",
+        "icons/my-idle-3-symbolic.svg"
     ]
 
     property real cpuUsage: SystemStatService.cpuUsage
@@ -117,8 +113,8 @@ Rectangle {
         id: iconImage
         source: root.currentIconSource
         anchors.centerIn: parent
-        anchors.horizontalCenterOffset: -3 // Padding on right
-        anchors.verticalCenterOffset: -1   // Padding on bottom
+        anchors.horizontalCenterOffset: -3
+        anchors.verticalCenterOffset: -1
         
         width: {
             switch (root.density) {
@@ -130,10 +126,17 @@ Rectangle {
         }
         height: width
         
+        // Ensures the SVG renders sharply at any size
         fillMode: Image.PreserveAspectFit
         smooth: true
-        mipmap: true
-        visible: true
+        mipmap: true 
+
+        // This enables the "mask" behavior to recolor the icon
+        layer.enabled: true
+        layer.effect: MultiEffect {
+            colorization: 1.0
+            colorizationColor: Settings.data.colorSchemes.darkMode ? "white" : "black"
+        }
     }
     
 

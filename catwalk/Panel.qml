@@ -44,23 +44,20 @@ Item {
                     property int frameIndex: 0
                     property bool isRunning: true 
                     
-                    readonly property bool isLightMode: (Color.mOnSurface.r * 0.299 + Color.mOnSurface.g * 0.587 + Color.mOnSurface.b * 0.114) < 0.5
-                    readonly property string iconPrefix: isLightMode ? "icons/black/" : "icons/"
-
                     readonly property var icons: [
-                        bigCatItem.iconPrefix + "my-active-0-symbolic.svg",
-                        bigCatItem.iconPrefix + "my-active-1-symbolic.svg",
-                        bigCatItem.iconPrefix + "my-active-2-symbolic.svg",
-                        bigCatItem.iconPrefix + "my-active-3-symbolic.svg",
-                        bigCatItem.iconPrefix + "my-active-4-symbolic.svg"
+                        "icons/my-active-0-symbolic.svg",
+                        "icons/my-active-1-symbolic.svg",
+                        "icons/my-active-2-symbolic.svg",
+                        "icons/my-active-3-symbolic.svg",
+                        "icons/my-active-4-symbolic.svg"
                     ]
                     
                     property int idleFrameIndex: 0
                     readonly property var idleIcons: [
-                        bigCatItem.iconPrefix + "my-idle-0-symbolic.svg",
-                        bigCatItem.iconPrefix + "my-idle-1-symbolic.svg",
-                        bigCatItem.iconPrefix + "my-idle-2-symbolic.svg",
-                        bigCatItem.iconPrefix + "my-idle-3-symbolic.svg"
+                        "icons/my-idle-0-symbolic.svg",
+                        "icons/my-idle-1-symbolic.svg",
+                        "icons/my-idle-2-symbolic.svg",
+                        "icons/my-idle-3-symbolic.svg"
                     ]
 
                     Timer {
@@ -80,12 +77,21 @@ Item {
                     Image {
                         id: bigCatImage
                         anchors.fill: parent
+                        
                         source: (bigCatItem.isRunning && SystemStatService.cpuUsage >= (root.pluginApi?.pluginSettings?.minimumThreshold || 10)) 
                                 ? Qt.resolvedUrl(bigCatItem.icons[bigCatItem.frameIndex]) 
                                 : Qt.resolvedUrl(bigCatItem.idleIcons[bigCatItem.idleFrameIndex])
+                        
                         fillMode: Image.PreserveAspectFit
                         smooth: true
-                        visible: true
+                        mipmap: true
+
+                        // This handles the programmatic coloring
+                        layer.enabled: true
+                        layer.effect: MultiEffect {
+                            colorization: 1.0
+                            colorizationColor: Settings.data.colorSchemes.darkMode ? "white" : "black"
+                        }
                     }
                 }
 
@@ -95,7 +101,7 @@ Item {
                     text: (pluginApi?.tr("panel.cpuLabel") || "CPU: {usage}%").replace("{usage}", Math.round(SystemStatService.cpuUsage))
                     font.pointSize: Style.fontSizeXL
                     font.weight: Font.Bold
-                    color: Color.mOnSurface
+                    color: Settings.data.colorSchemes.darkMode ? "white" : "black"
                 }
             }
         }

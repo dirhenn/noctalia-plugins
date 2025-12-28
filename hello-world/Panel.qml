@@ -210,7 +210,16 @@ Item {
             spacing: Style.marginS
 
             NText {
-              text: "$ qs -p . ipc call plugin:hello-world setMessage \"Bonjour\""
+              text: "$ qs -c noctalia-shell ipc call plugin:hello-world setMessage \"Bonjour\""
+              font.pointSize: Style.fontSizeS
+              font.family: Settings.data.ui.fontFixed
+              color: Color.mPrimary
+              Layout.fillWidth: true
+              wrapMode: Text.WrapAnywhere
+            }
+
+            NText {
+              text: "$ qs -c noctalia-shell ipc call plugin:hello-world toggle"
               font.pointSize: Style.fontSizeS
               font.family: Settings.data.ui.fontFixed
               color: Color.mPrimary

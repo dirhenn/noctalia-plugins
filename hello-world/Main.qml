@@ -19,5 +19,12 @@ Item {
         ToastService.showNotice("Message updated to: " + message);
       }
     }
+    function toggle() {
+      if (pluginApi) {
+        pluginApi.withCurrentScreen(screen => {
+          pluginApi.openPanel(screen);
+        });
+      }
+    }
   }
 }

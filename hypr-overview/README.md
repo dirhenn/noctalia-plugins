@@ -11,17 +11,6 @@ A standalone workspace overview module for Hyprland using Quickshell - shows all
 
 </div>
 
----
-
-## 📸 Preview
-
-![Overview Screenshot](assets/image.png)
-
-https://github.com/user-attachments/assets/79ceb141-6b9e-4956-8e09-aaf72b66550c
-
-> *Workspace overview showing live window previews with drag-and-drop support*
-
----
 
 ## ✨ Features
 
@@ -43,53 +32,12 @@ https://github.com/user-attachments/assets/79ceb141-6b9e-4956-8e09-aaf72b66550c
 - **Qt 6** with modules: QtQuick, QtQuick.Controls
 
 ### Setup
+``
 
-1. **Clone this repository** to your Quickshell config directory:
-   ```bash
-   git clone https://github.com/Shanu-Kumawat/quickshell-overview ~/.config/quickshell/overview
-   ```
-
-2. **Add keybind** to your Hyprland config (`~/.config/hypr/hyprland.conf`):
+1. **Add keybind** to your Hyprland config (`~/.config/hypr/hyprland.conf`):
    ```conf
-   bind = Super, TAB, exec, qs ipc -c overview call overview toggle
+   bind = Super, TAB, exec, qs -c noctalia-shell ipc call plugin:hypr-overview toggle
    ```
-
-3. **Auto-start** the overview (add to Hyprland config):
-   ```conf
-   exec-once = qs -c overview
-   ```
-
-4. **Reload Hyprland**:
-   ```bash
-   hyprctl reload
-   ```
-
-### Manual Start (if needed)
-
-```bash
-qs -c overview &
-```
-
-### NixOS
-
-For NixOS users, ensure Quickshell has access to required Qt6 modules:
-
-```nix
-# In your configuration.nix or home-manager config
-environment.systemPackages = with pkgs; [
-  quickshell
-  qt6.qtwayland
-];
-```
-
-If you're using home-manager:
-
-```nix
-home.packages = with pkgs; [
-  quickshell
-  qt6.qtwayland
-];
-```
 
 ## 🎮 Usage
 
@@ -103,14 +51,9 @@ home.packages = with pkgs; [
 | **Click workspace** | Switch to that workspace |
 | **Click window** | Focus that window |
 | **Middle-click window** | Close that window |
-| **Drag window** | Move window to different workspace |
+| **Drag window** | Move window to different workspace (single monitor only)|
 
 ---
-
-## ⚙️ Configuration
-
-> **⚠️ Want to change the size, position, or number of workspaces?**  
-> Edit `~/.config/quickshell/overview/common/Config.qml` - it's all there!
 
 ### Workspace Grid
 
@@ -173,63 +116,32 @@ The following features were removed to make it standalone:
 - Search widget
 - Integration with the full illogical-impulse shell ecosystem
 
-## 📁 File Structure
-
-```
-~/.config/quickshell/overview/
-├── shell.qml                      # Main entry point
-├── README.md                      # This file
-├── hyprland-config.conf          # Configuration reference
-├── common/
-│   ├── Appearance.qml            # Theme and styling
-│   ├── Config.qml                # Configuration options
-│   ├── functions/
-│   │   └── ColorUtils.qml        # Color manipulation utilities
-│   └── widgets/
-│       ├── StyledText.qml        # Styled text component
-│       ├── StyledRectangularShadow.qml
-│       ├── StyledToolTip.qml
-│       └── StyledToolTipContent.qml
-├── services/
-│   ├── GlobalStates.qml          # Global state management
-│   └── HyprlandData.qml          # Hyprland data provider
-└── modules/
-    └── overview/
-        ├── Overview.qml          # Main overview component
-        ├── OverviewWidget.qml    # Workspace grid widget
-        └── OverviewWindow.qml    # Individual window preview
-```
-
 ## 🎯 IPC Commands
 
 ```bash
 # Toggle overview
-qs ipc -c overview call overview toggle
+qs -c noctalia-shell ipc call plugin:hypr-overview toggle
 
 # Open overview
-qs ipc -c overview call overview open
+qs -c noctalia-shell ipc call plugin:hypr-overviewopen
 
 # Close overview  
-qs ipc -c overview call overview close
+qs -c noctalia-shell ipc call plugin:hypr-overview close
 ```
 
 ## 🐛 Known Issues
 
-- Window icons may fallback to generic icon if app class name doesn't match icon theme
 - Potential crashes during rapid window state changes due to Wayland screencopy buffer management
+- Some keybinds and drag are bound to single monitor
+- Color Palette not syncing with Noctalia environment
 
 ##  Credits
 
 Extracted from the overview feature in [illogical-impulse](https://github.com/end-4/dots-hyprland) by [end-4](https://github.com/end-4).
 
-Adapted as a standalone component for Hyprland + Quickshell users who want just the overview functionality.
+Adapted as a standalone component for Hyprland + Quickshell users who want just the overview functionality by Shanu-Kumawat.
+
+Ported to Noctalia-Shell as plugin by Dirhenn.
 
 ---
 
-<div align="center">
-
-**Note:** Maintenance will be limited due to time constraints, but **PRs and code improvements are welcome!** Feel free to contribute or fork for your own needs.
-
-Made with ❤️ for the Hyprland community
-
-</div>

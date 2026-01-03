@@ -1,0 +1,13 @@
+{
+  "id": "hypr-overview",
+  "name": "Hyprland Overview",
+  "version": "1.0.0",
+  "minNoctaliaVersion": "3.6.0",
+  "author": "dirhenn",
+  "license": "MIT",
+  "repository": "https://github.com/dirhenn/noctalia-plugins",
+  "description": "Overview ported from End4 dots for compatibility with Noctalia Shell with fixed multimonitor support",
+  "entryPoints": {
+    "main": "modules/overview/Overview.qml"
+  }
+}
